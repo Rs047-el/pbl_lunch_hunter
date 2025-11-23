@@ -1,0 +1,40 @@
+<!DOCTYPE html> 
+<html><head>
+<meta http-equiv="Content-TYPE" content="text/html; charset=UTF-8">
+<link rel="stylesheet" TYPE="text/css" href="css/style.css">
+</head>
+<body>
+<div class="wrapper">
+<div id="navbar">
+
+<?php
+echo $_SESSION['user_name'] ?? '', '&nbsp;$nbsp;&nbsp;';
+echo '<a href="?do=rst_list">HOME</a>&nbsp;&nbsp&nbsp;';
+if (isset($_SESSION['usertype_id'])){
+  
+  $menu = array();//メニュー項目：プログラム名（拡張子.php省略）
+  if ($_SESSION['usertype_id']==='1'){  //社員
+    $menu = array(   //社員メニュー
+      '店舗一覧'  => 'rst_list',
+      'MY_PAGE'  => 'ust_page',
+      '店舗登録'  => 'rst_input',
+    );
+  }
+  if ($_SESSION['usertype_id']==='9'){  //管理者
+    $menu = array(   //管理者メニュー
+      '店舗一覧'  => 'rst_list',
+      'ユーザ一覧'  => 'usr_list',
+      '通報済み口コミ一覧' => 'rev_report',
+    );
+  } 
+  foreach($menu as $label=>$action){ 
+    echo  '<a href="?do=' . $action . '">' . $label . '</a>&nbsp;&nbsp;' ;
+  }
+  echo  '<a href="?do=usr_logout">ログアウト</a>&nbsp;&nbsp;' ;
+  
+}else{
+   echo  '<a href="?do=usr_login">ログイン</a>' ;
+}
+?>
+</div>
+<h2 align="left">Lunch Hunter</h2>
