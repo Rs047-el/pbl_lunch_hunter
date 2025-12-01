@@ -24,7 +24,7 @@ create table t_rstinfo(
     , end_time TIME not null comment ''
     , tel_num VARCHAR(32) not null comment ''
     , rst_holiday int 
-    ,
+    , 
     ,
     ,
 ) comment '店舗情報';
