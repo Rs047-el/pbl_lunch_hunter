@@ -5,9 +5,6 @@
     <title>Lunch Hunter - 店舗編集・削除</title>
     </head>
 <body>
-    <?php
-    require_once 'pg_header.php';
-    ?>
     <main>
         <button onclick="location.href='store_list.php'">戻る</button>
         <h2>店舗詳細情報編集・削除</h2>
@@ -45,3 +42,31 @@
     </main>
 </body>
 </html>
+<?php
+require_once 'db_connect.php';
+
+$store_id = $_GET['id'] ?? null;
+
+$store_data = [
+    'id' => '', 
+    'name' => '', 
+    'address' => '', 
+    'payment' => []
+];
+
+if ($store_id) {
+    $stmt = $pdo->prepare("SELECT * FROM stores WHERE id = ?");
+    $stmt->execute([$store_id]);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($result) {
+        $store_data['id'] = $result['id'];
+        $store_data['name'] = $result['name'];
+        $store_data['address'] = $result['address'];
+        $store_data['payment'] = explode(',', $result['payment_methods']);
+    } else {
+        header('Location: store_list.php?error=not_found');
+        exit;
+    }
+}
+?>
