@@ -28,6 +28,7 @@ C:/php/lampp-docker8/htdocs/
 
 #### **c.** データベース検索用コード一覧
 -require_once('model.php');必須コード
+
 -$model = new User(); 利用したいデータに応じた宣言
     -ユーザの場合->$model = new User()
     -店舗の場合->$model = new Restaurant()
