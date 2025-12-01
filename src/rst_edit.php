@@ -6,7 +6,7 @@
     </head>
 <body>
     <main>
-        <button onclick="location.href='store_list.php'">戻る</button>
+        <button onclick="location.href='store_list.php'">店舗詳細</button>
         <h2>店舗詳細情報編集・削除</h2>
         
         <form action="edit_delete_store.php" method="POST" enctype="multipart/form-data">
@@ -69,4 +69,71 @@ if ($store_id) {
         exit;
     }
 }
+?>
+<?php
+// ... データ取得・表示のPHPコードの後に続く ...
+
+// フォームがPOST送信された場合の処理
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $action = $_POST['action'] ?? null;
+    $store_id = $_POST['store_id'] ?? null;
+
+    if (!$store_id) {
+        // IDがない場合はエラー
+        die("店舗IDが指定されていません。");
+    }
+
+    if ($action === 'update') {
+        // 16. 更新処理
+        
+        // データの受け取りと検証
+        $name = $_POST['store_name'] ?? '';
+        $address = $_POST['address'] ?? '';
+        $payment_array = $_POST['payment'] ?? []; // チェックボックスは配列で受け取る
+        $payment_methods = implode(',', $payment_array); // DB保存用にカンマ区切り文字列に変換
+
+        // TODO: ここで全ての必須項目のチェック、入力値のサニタイズ（安全な処理）を行う
+
+        // データベースの更新
+        try {
+            $sql = "UPDATE stores SET 
+                    name = ?, 
+                    address = ?, 
+                    payment_methods = ?
+                    -- 他のフィールドも同様に追加
+                    WHERE id = ?";
+            
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([$name, $address, $payment_methods, $store_id]);
+
+            // 更新成功後に店舗詳細画面や一覧画面へリダイレクト
+            header('Location: store_list.php?message=updated');
+            exit;
+
+        } catch (PDOException $e) {
+            $error_message = "更新中にエラーが発生しました: " . $e->getMessage();
+            // $error_messageをHTML側に表示するなどの対応
+        }
+
+    } elseif ($action === 'delete') {
+        // 17. 削除処理
+        
+        // データベースの削除
+        try {
+            // 削除確認のダイアログはHTML側の `onclick="return confirm(...)"` で対応
+            $sql = "DELETE FROM stores WHERE id = ?";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([$store_id]);
+
+            // 削除成功後に店舗一覧画面へリダイレクト
+            header('Location: store_list.php?message=deleted');
+            exit;
+
+        } catch (PDOException $e) {
+            $error_message = "削除中にエラーが発生しました: " . $e->getMessage();
+            // $error_messageをHTML側に表示するなどの対応
+        }
+    }
+}
+// ... HTMLの開始タグへ ...
 ?>
