@@ -23,9 +23,6 @@ $reports = [
 ];
 ?>
 
-<?php echo kkkkk ?>
-
-
 <!DOCTYPE html>
 <html lang="jp">
 <head>
