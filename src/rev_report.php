@@ -1,5 +1,5 @@
 <?php
-$reports = $reports ?? [
+$reports ?? [
     [
         "account" => "タックン",
         "rating" => 2,
@@ -55,7 +55,7 @@ $reports = $reports ?? [
         <p><?= htmlspecialchars($r["comment"]) ?></p>
 
         <div class="small">
-            投稿主：<?= htmlspecialchars($r["poster"]) ?><br>
+            投稿主：<?= echo $reports[0][poster]?><br>
             通報者：<?= htmlspecialchars($r["reporter"]) ?>
         </div>
     </div>
