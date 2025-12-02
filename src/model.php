@@ -122,6 +122,7 @@ class User extends Model
 class Restaurant extends Model
 {
     protected $table = "t_rstinfo";
+    
 }
 
 class Review extends Model
