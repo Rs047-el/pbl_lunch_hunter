@@ -71,7 +71,7 @@ create table t_usertype(
     , constraint t_usertype_pkc primary key (usertype_id)
 ) comment 'ユーザ種別';
 -- お気に入り店舗
-create table t_usertype(
+create table t_favorite(
     user_id CHAR(16) not null comment '登録ユーザID'
     , rst_id BIGINT not null comment '登録店舗ID'
 ) comment 'お気に入り店舗';
