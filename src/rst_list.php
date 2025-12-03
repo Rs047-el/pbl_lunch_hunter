@@ -139,37 +139,44 @@ require_once 'pg_header.php';
         
         <!-- 店舗カードグリッド -->
         <div class="store-grid">
-            <?php foreach ($mock_stores as $store): ?>
-                <div class="store-card" style="background: white; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1);" onclick="location.href='store_detail.php?id=<?php echo $store['id']; ?>'">
-                    <div class="store-image-container" style="position: relative;">
-                       <img src="<?php echo h($store['image']); ?>" alt="<?php echo h($store['name']); ?>" class="store-image">
+          <?php foreach ($mock_stores as $store): ?>
+             <div class="store-card">
 
-                <?php if ($store['has_discount']): ?>
-                  <span class="discount-badge"
-                       style="position: absolute; top: 0.5rem; right: 0.5rem;
-                      background-color: #dc2626; color: white;
-                      padding: 0.25rem 0.5rem;
-                      border-radius: 0.25rem; font-size: 0.75rem;">
-                      割引
-                  </span>
-               <?php endif; ?>
+               <div class="store-image-container" style="position: relative;">
+                  <img src="<?php echo h($store['image']); ?>" alt="<?php echo h($store['name']); ?>" class="store-image">
 
-              <?php if ($store['is_favorite']): ?>
-                  <span style="position: absolute; top: 0.5rem; left: 0.5rem; font-size: 1.5rem;">⭐</span>
-              <?php endif; ?>
-           </div>
-                        <div class="store-tags">
-                            <?php foreach ($store['tags'] as $tag): ?>
-                                <span style="display: inline-block; background-color: #f3f4f6; padding: 0.125rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; margin-right: 0.25rem;">
-                                    #<?php echo h($tag); ?>
-                                </span>
-                            <?php endforeach; ?>
-                        </div>
-                        <p class="store-registrar">登録者：<?php echo h($store['registered_by']); ?></p>
-                    </div>
-                </div>
+                    <?php if ($store['has_discount']): ?>
+                      <span class="discount-badge"
+                          style="position: absolute; top: 0; right: 0;
+                              background-color: #dc2626; color: white;
+                              padding: 0.3rem 0.6rem;
+                              border-bottom-left-radius: 0.4rem;
+                              font-size: 0.75rem;">
+                           割引
+                       </span>
+                   <?php endif; ?>
+
+                <?php if ($store['is_favorite']): ?>
+                    <span style="position: absolute; top: 0.5rem; left: 0.5rem; font-size: 1.5rem;">⭐</span>
+                <?php endif; ?>
+              </div>
+
+            <h3><?php echo h($store['name']); ?></h3>
+
+        <div class="store-tags">
+            <?php foreach ($store['tags'] as $tag): ?>
+                <span style="display: inline-block; background-color: #f3f4f6; padding: 0.125rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; margin-right: 0.25rem;">
+                    #<?php echo h($tag); ?>
+                </span>
             <?php endforeach; ?>
         </div>
+
+        <p class="store-registrar">登録者：<?php echo h($store['registered_by']); ?></p>
+
+         </div>
+       <?php endforeach; ?>
+        </div>
+
         
         <!-- ページネーション -->
         <div class="pagination">

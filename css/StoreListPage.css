@@ -157,10 +157,10 @@
 }
 
 .store-grid {
-  display: grid;
-  grid-template-columns: repeat(1, minmax(0, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 2rem;
+ display: grid;
+ grid-template-columns: repeat(3, 1fr); /* ← ここで3列に固定 */
+ gap: 1.5rem; /* カードの間隔 */
+ margin-top: 1.5rem;
 }
 
 @media (min-width: 768px) {
@@ -176,9 +176,10 @@
 }
 
 .store-card {
-  overflow: hidden;
-  cursor: pointer;
-  transition: box-shadow 0.3s;
+  background: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    padding-bottom: 1rem;
 }
 
 .store-card:hover {
@@ -193,7 +194,7 @@
 
 .store-image {
   width: 100%;
-  height: 100%;
+  height: 180%;
   object-fit: cover;
 }
 
