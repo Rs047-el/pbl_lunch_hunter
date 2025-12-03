@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once 'model.php';
 
 $error = false;
@@ -37,22 +36,20 @@ if(!$error){
 
     // データ登録
     $rows = $rst_save->insert($data);
-
     // 登録成功か判定
     if($rows > 0){
         $_SESSION['message'] = "店舗が登録されました。";
     } else {
         $_SESSION['message'] = "登録に失敗しました。";
     }
-
     // 登録結果ページまたは一覧ページへ遷移
-    header('Location: rst_list.php');
+    header('Location:?do=rst_list');
     exit();
 
 } else {
     // 入力エラー時はフォームに戻す
     $_SESSION['old'] = $_POST;
     $_SESSION['error'] = true;
-    header('Location: rst_input.php');
+    header('Location:?do=rst_input');
     exit();
 }
