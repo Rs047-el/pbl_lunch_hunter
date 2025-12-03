@@ -1,12 +1,12 @@
 <main>
     <h2>店舗登録</h2>
     <?php
-    session_start();
-    if ($_SESSION['error'] == true) {
+    $error = $_SESSION['error'] ?? false;
+    if ($error == true) {
         echo '<h2 style="color:red">必須項目が未入力です</h2>';
     }
     ?>
-    <form action="rst_save.php" method="post" enctype="multipart/form-data">
+    <form action="?do=rst_save" method="post" enctype="multipart/form-data">
 
         <div class="registration-container">
 
