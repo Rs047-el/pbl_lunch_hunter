@@ -1,0 +1,118 @@
+<?php
+$reports = array(
+    [
+        'id'=> '1',
+        'アカウント名'=> 'タックン',
+        '評価点'=> '1',
+        'ジャンル'=> 'ラーメン',
+        '通報理由'=> '写真',
+        'コメント'=> '店主が臭い',
+        '通報者'=> '九尾 太郎',
+        '投稿主'=> '美輪 明宏',
+    ],
+    [
+        'id'=> '2',
+        'アカウント名'=> 'アカウント名',
+        '評価点'=> '2',
+        'ジャンル'=> 'ジャンル',
+        '通報理由'=> 'コメント',
+        'コメント'=> 'コメント一部',
+        '通報者'=> '通報者',
+        '投稿主'=> '投稿主',
+    ],
+    [
+        'id'=> '1',
+        'アカウント名'=> 'タックン',
+        '評価点'=> '3',
+        'ジャンル'=> 'ラーメン',
+        '通報理由'=> '写真',
+        'コメント'=> '店主が臭い',
+        '通報者'=> '九尾 太郎',
+        '投稿主'=> '美輪 明宏',
+    ],
+    [
+        'id'=> '2',
+        'アカウント名'=> 'アカウント名',
+        '評価点'=> '4',
+        'ジャンル'=> 'ジャンル',
+        '通報理由'=> 'コメント',
+        'コメント'=> 'コメント一部',
+        '通報者'=> '通報者',
+        '投稿主'=> '投稿主',
+    ]
+);
+
+
+// sort が desc なら逆順
+$sort = $_GET['sort'] ?? 'asc';
+$sortedreports = ($sort === 'desc') ? array_reverse($reports) : $reports;
+?>
+
+
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>通報済み口コミ一覧</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>通報済み口コミ一覧表示</h1>
+
+<div class="top-btn">
+    <button type="button">通報取り消し一覧</button>
+    <button type="button" id="hidbtn">非表示</button>
+    <button type="button">
+        <a href="?sort=<?= $sort === 'asc' ? 'desc' : 'asc' ?>" class="btn">並び替え（<?php echo $sort === 'asc' ? '古い順' : '新着順' ?>）</a>
+    </button>
+</div>
+
+
+
+<?php foreach ($sortedreports as $report): ?>
+    <section class="report-box">
+
+        <div class="left">
+            <h3><?php echo htmlspecialchars($report['アカウント名']) ?></h3>
+
+            <div class="star">
+                <p>評価：<?php echo $report['評価点']?></p>
+                <?php for ($i = 1; $i <= 5; $i++): ?>
+                    <?php echo $i<=(int)$report['評価点'] ? "★" : "☆" ?>
+                <?php endfor; ?>
+            </div>
+
+            <p><?php echo htmlspecialchars($report['コメント']) ?></p>
+
+            <div class="small">
+                <p>投稿主：<?php echo htmlspecialchars($report['通報者']) ?></p>
+                <p>通報者：<?php echo htmlspecialchars($report['投稿主']) ?></p>
+            </div>
+        </div>
+
+        <div class="right">
+            <h3>#<?php echo htmlspecialchars($report['ジャンル']) ?></h3>
+            <p>通報内容：<?php echo htmlspecialchars($report['通報理由']) ?></p>
+
+            <!-- 遷移ボタン（ID を URL パラメータとして渡す） -->
+            <button type="button" onclick="location.href='detail.php?id=<?php echo $report['id']?? 0 ?>'">詳細</button>
+            <button type="button" onclick="location.href='cancel.php?id=<?php echo $report['id']?? 0 ?>'">取り消し</button>
+            <button class="btn0" popovertarget="my">削除</button>
+            <!--ポップアップ-->
+                <div class="pop" popover id="my">
+                    <p>本当に削除しますか？</p>
+                    <div class="yn">
+                        <button id="hideBtn" type="button" onclick="location.href='cancel.php?id=<?php echo $report['id']?? 0 ?>'">yes</button>
+                        <button type="button" onclick="document.getElementById('my').hidePopover()">no</button>
+                    </div>                   
+                </div>
+        </div>
+    </section>
+<?php endforeach; ?>
+
+</body>
+</html>
