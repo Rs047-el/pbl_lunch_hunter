@@ -9,6 +9,7 @@ $where = "user_id='{$user_id}' AND password='{$user_password}'";
 $user = $model->get_userDetail($where);
 if($user){
     $_SESSION['user_id'] = $user['user_id'];
+    $_SESSION[''] = $user['user_l_name'];
     $_SESSION['user_password'] = $user['password'];
     $_SESSION['usertype_id'] = $user['usertype_id'];
     header('Location:index.php');
