@@ -14,7 +14,7 @@ $reports = array(
         'id'=> '2',
         'アカウント名'=> 'アカウント名',
         '評価点'=> '4',
-        'ジャンル'=> '店舗名',
+        'ジャンル'=> 'ジャンル',
         '通報理由'=> 'コメント',
         'コメント'=> 'コメント一部',
         '通報者'=> '通報者',
@@ -59,7 +59,7 @@ $reports = array(
             <p><?php echo htmlspecialchars($report['コメント']) ?></p>
 
             <div class="small">
-                <p>投稿主：<?php echo htmlspecialchars($report['通報者']) ?></p><br>
+                <p>投稿主：<?php echo htmlspecialchars($report['通報者']) ?></p>
                 <p>通報者：<?php echo htmlspecialchars($report['投稿主']) ?></p>
             </div>
         </div>
