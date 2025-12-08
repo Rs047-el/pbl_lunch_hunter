@@ -28,6 +28,13 @@ C:/php/lampp-docker8/htdocs/
 
 #### **c.** データベース検索用コード一覧
 
+**データ確認用ソースコード**
+- pg_lookdata.php
+    - 検索した後のデータがどんな形で出力されるか確認できる
+    - 以下のURLにアクセス
+
+http://localhost/pbl_lunch_hunter/?do=pg_lookdata
+
 **必須コード**
 - require_once('model.php');
 
@@ -73,3 +80,7 @@ C:/php/lampp-docker8/htdocs/
     - 引数:
         - $table,テーブル名,登録店舗の場合't_rstinfo',口コミの場合't_review'
         - $user_id,ユーザID
+
+- get_RstDetail($where)店舗詳細
+    - 引数：$where, 条件を表す文字列, 例：'rst_id = 1';
+
