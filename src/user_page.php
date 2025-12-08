@@ -30,7 +30,7 @@ $shops=array(
     'ジャンル'=>'いいい',
     '0'=>'割引有',
     '1'=>'割引無',
-    ]
+    ],
 );
 ?>
 <!DOCTYPE html>
@@ -50,8 +50,7 @@ $shops=array(
     }
 
     .btn1{
-        display: flex;
-        justify-content: flex-end;
+        margin-left: 80%;
     }
 
     .info{
@@ -67,9 +66,12 @@ $shops=array(
 
     .shop{
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        grid-auto-flow: column;
+        grid-template-columns: repeat(2, 1fr);
         gap: 10px;
+    }
+
+    .star{
+        display: flex;
     }
 
     .item{
