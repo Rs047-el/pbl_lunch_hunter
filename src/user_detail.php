@@ -2,17 +2,19 @@
 $user_id   = $_GET['user_id'] ?? '';
 $user_name = $_POST['user_name'] ?? '';
 
-// 仮の店舗データ
+// 仮の店舗データ（owner_idを追加）
 $store = [
+  'store_id'   => 's001',
   'store_name' => '丸兎製麺 九産大前店',
-  'address' => '福岡市東区〇丁目20-4 ◇◇ビル2階',
-  'tel' => '092-000-0000',
-  'hours' => '9:30〜11:00',
-  'holiday' => '火曜日',
-  'genre' => 'うどん、和食',
-  'payment' => '現金 QRコード 電子マネー クレジットカード',
-  'url' => 'https://example.com',
-  'photo' => 'photo_sample.jpg'
+  'address'    => '福岡市東区〇丁目20-4 ◇◇ビル2階',
+  'tel'        => '092-000-0000',
+  'hours'      => '9:30〜11:00',
+  'holiday'    => '火曜日',
+  'genre'      => 'うどん、和食',
+  'payment'    => '現金 QRコード 電子マネー クレジットカード',
+  'url'        => 'https://example.com',
+  'photo'      => 'photo_sample.jpg',
+  'owner_id'   => 'u001' // 店舗登録者のユーザID（仮）
 ];
 
 // 仮の口コミデータ
@@ -49,9 +51,12 @@ foreach ($reviews as $r) {
     .container { max-width: 900px; margin: auto; }
     .section { margin-bottom: 30px; }
     .review_card { border: 1px solid #ccc; padding: 10px; margin-top: 10px; border-radius: 5px; }
+    .btn { padding: 8px 12px; background: #007bff; color: #fff; text-decoration: none; border-radius: 4px; }
+    .btn:hover { background: #0056b3; }
   </style>
 </head>
 <body>
+  <div class="container">
 
     <!-- 店舗情報 -->
     <div class="section">
@@ -65,6 +70,11 @@ foreach ($reviews as $r) {
       <p><strong>支払方法：</strong><?= $store['payment'] ?></p>
       <p><strong>URL：</strong><a href="<?= $store['url'] ?>" target="_blank">公式サイト</a></p>
       <img src="<?= $store['photo'] ?>" alt="店舗外観">
+
+      <!-- 店舗登録者のみ編集ボタンを表示 -->
+      <?php if ($store['owner_id'] === $user_id): ?>
+        <p><a href="store_edit.php?store_id=<?= urlencode($store['store_id']) ?>" class="btn">店舗情報編集</a></p>
+      <?php endif; ?>
     </div>
 
     <!-- 総合評価 -->
