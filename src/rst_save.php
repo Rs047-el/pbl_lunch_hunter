@@ -37,7 +37,7 @@ if(!$error){
         'rst_pay'=> isset($_POST['payment']) ? array_sum($_POST['payment']) : null,
         'rst_url'=> $_POST['url'] ?? null,
         'photo_file'=> $_POST['photo_file'] ?? null,
-        'user_id'=> $_POST['user_id'] ?? 1,
+        'user_id'=> $_POST['user_id'] ?? null,
         'discount'=> false
     ];
 
