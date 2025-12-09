@@ -3,7 +3,7 @@ $reports = array(
     [
         'id'=> '1',
         'アカウント名'=> 'タックン',
-        '評価点'=> '1',
+        '評価点'=> '3.7',
         'ジャンル'=> 'ラーメン',
         '通報理由'=> '写真',
         'コメント'=> '店主が臭い',
@@ -13,7 +13,7 @@ $reports = array(
     [
         'id'=> '2',
         'アカウント名'=> 'アカウント名',
-        '評価点'=> '2',
+        '評価点'=> '1.5',
         'ジャンル'=> 'ジャンル',
         '通報理由'=> 'コメント',
         'コメント'=> 'コメント一部',
@@ -23,7 +23,7 @@ $reports = array(
     [
         'id'=> '3',
         'アカウント名'=> 'タックン',
-        '評価点'=> '3',
+        '評価点'=> '4.4',
         'ジャンル'=> 'ラーメン',
         '通報理由'=> '写真',
         'コメント'=> '店主が臭い',
@@ -33,7 +33,7 @@ $reports = array(
     [
         'id'=> '4',
         'アカウント名'=> 'アカウント名',
-        '評価点'=> '4',
+        '評価点'=> '2.2',
         'ジャンル'=> 'ジャンル',
         '通報理由'=> 'コメント',
         'コメント'=> 'コメント一部',
@@ -55,6 +55,10 @@ $reports = array(
 <body>
 
 <style>
+    *{
+        margin:0;
+    }
+
     h1{
         text-align: center;
     }
@@ -66,6 +70,7 @@ $reports = array(
 
     }
     .report-box{
+        width: 80%;
         display: flex;
         padding: 20px;
         border: 0.5px solid;
@@ -75,12 +80,60 @@ $reports = array(
     }
     .star{
         display: flex;
-        background-color: red;
+        gap:0.2px;
     }
 
     .kome{
-        border:0.5px solid;
+        border: 1px solid #999;
+        padding: 8px;      
+        margin-top: 5px;   
+        border-radius: 5px;
+        background-color:red;
     }
+
+    .small{
+        font-size:12px
+    }
+
+    .btn2{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .pop{
+        margin-top: 40vh;
+        margin-left: 50%;
+    }
+
+    .star-rating {
+    --rate: 0;        /* 0〜5 の小数(0.1 刻みなど)を直接入れる */
+    --size: 20px;
+    --star-color: #ccc;
+    --star-fill: gold;
+
+    font-size: var(--size);
+    font-family: "Arial", sans-serif;
+    position: relative;
+    display: inline-block;
+    line-height: 1;
+    }
+
+    .star-rating::before {
+        content: "★★★★★";
+        color: var(--star-color);
+    }
+
+    .star-rating::after {
+        content: "★★★★★";
+        color: var(--star-fill);
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: calc(var(--rate) * 20%);  /* ★ 小数点をそのまま使用（0.1 → 2%） */
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
 
 
 </style>
@@ -101,16 +154,22 @@ $reports = array(
 
         <div class="left">
             <h3><?php echo htmlspecialchars($report['アカウント名']) ?></h3>
-
             <div class="star">
-                <div>評価：</div>
+                <!--<div>評価：</div>
                 <?php for ($i = 1; $i <= 5; $i++): ?>
                     <?php echo $i<=(int)$report['評価点'] ? "★" : "☆" ?>
                 <?php endfor; ?>
-                <div><?php echo $report['評価点']?></div>
-            </div>
+                <div><?php echo $report['評価点']?></div>-->
 
-            <div class="kome"><?php echo htmlspecialchars($report['コメント']) ?></div>
+                <div>評価：</div>
+                <?php $rate = (float)$report['評価点']; ?>
+                <div class="star-rating" style="--rate: <?= $rate ?>;"></div>
+                <div><?= htmlspecialchars($report['評価点']) ?></div>
+
+            </div>
+            <div class="kome">
+                <div><?php echo htmlspecialchars($report['コメント']) ?></div>
+            </div>
 
             <div class="small">
                 <p>投稿主：<?php echo htmlspecialchars($report['通報者']) ?></p>
@@ -121,11 +180,12 @@ $reports = array(
         <div class="right">
             <h3>#<?php echo htmlspecialchars($report['ジャンル']) ?></h3>
             <p>通報内容：<?php echo htmlspecialchars($report['通報理由']) ?></p>
+            <div class="btn2">
+                <button type="button" onclick="location.href='/src/rev_detail.php'">詳細</button>
+                <button type="button" onclick="location.href='cancel.php'">取り消し</button>
+                <button class="btn0" popovertarget="my-<?= $report['id'] ?>">削除</button>
+            </div>
 
-            <button type="button" onclick="location.href='/src/rev_detail.php'">詳細</button>
-            <button type="button" onclick="location.href='cancel.php'">取り消し</button>
-            <button class="btn0" popovertarget="my-<?= $report['id'] ?>">削除</button>
-            
             <div class="pop" popover="manual" id="my-<?= $report['id'] ?>">
                 <p>本当に削除しますか？</p>
                     <div class="yn">
@@ -153,7 +213,7 @@ $reports = array(
                     <h3>${report['アカウント名']}</h3>
                     <div class="star">
                         <p>評価：${report['評価点']}</p>
-                        ${"★".repeat(report['評価点']) + "☆".repeat(5 - report['評価点'])}
+                        <div class="star-rating" style="--rate:${parseFloat(report['評価点'])}"></div>
                     </div>
                     <p>${report['コメント']}</p>
                     <div class="small">

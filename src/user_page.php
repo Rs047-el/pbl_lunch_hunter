@@ -33,6 +33,26 @@ $shops=array(
     '0'=>'割引有',
     '1'=>'割引無',
     ],
+    [
+    '店舗名'=>'丸亀製麵',
+    '評価'=>'5',
+    'ジャンル'=>'うどん 和食',
+    '0'=>'割引有',
+    ],
+    [
+    '店舗名'=>'あああ',
+    '評価'=>'1',
+    'ジャンル'=>'いいい',
+    '0'=>'割引有',
+    '1'=>'割引無',
+    ],
+    [
+    '店舗名'=>'あああ',
+    '評価'=>'1',
+    'ジャンル'=>'いいい',
+    '0'=>'割引有',
+    '1'=>'割引無',
+    ],
 );
 ?>
 <!DOCTYPE html>
@@ -55,20 +75,22 @@ $shops=array(
         margin-left: 80%;
     }
 
-    .info{
-        margin: 30px;
+    .info-area{
         display: flex;
-        gap:  30%;
+        justify-content: space-evenly;
+    }
+
+    .info{
+        text-align: left;   
     }
     .info1{
-        margin: 30px;
-        display: flex;
-        gap:  30%;
+        /*justify-content: space-between;*/
+        text-align: left; 
     }
 
     .shop{
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr 1fr 1fr;
         gap: 10px;
     }
 
@@ -82,6 +104,24 @@ $shops=array(
         border: 0.5px solid;
         margin-bottom: 10px;
         padding-left:15px;
+        height: 30vh;
+        font-size: 1rem;
+    }
+
+    .item:hover{
+        box-shadow:1px 1px 3px;
+    }
+
+    .kome{
+        border:0.5px solid;
+    }
+
+    .phot{
+        margin-left: 100px;
+        margin-top:10px;
+        border: 0.5px solid;
+        width:50%;
+        height: 90%;
     }
 
 </style>
@@ -119,9 +159,8 @@ $shops=array(
     </div>
 <?php foreach ($shops as $shop): ?>
     <!--投稿店舗-->
-    <div class="shop">
         <div class="item">
-            <div class="shopi">
+            <div class="shopinfo">
                 <h4>店舗名:<?php echo $shop['店舗名'] ?></h4>
                 <div class="star">
                     <div>評価：</div>
@@ -139,6 +178,6 @@ $shops=array(
                 </a>
             </div>
         </div>
-    </div>
-<?php endforeach; ?>
+    <?php endforeach; ?>
+</div>
 </div>
