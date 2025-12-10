@@ -101,8 +101,10 @@ $reports = array(
     }
 
     .btn02{
+        width:100px;
         display: flex;
         flex-direction: column;
+        gap:5px;
     }
 
     .pop{
@@ -187,11 +189,6 @@ $reports = array(
         <div class="right">
             <h3>#<?php echo htmlspecialchars($report['ジャンル']) ?></h3>
             <div>通報内容：<?php echo htmlspecialchars($report['通報理由']) ?></div>
-            <div class="btn02">
-                <button type="button" onclick="location.href='?do=rev_detail.php'"><a href="?do=rev_detail.php">詳細</a></button>
-                <button type="button">取り消し</button>
-                <button class="btn0" popovertarget="my-<?= $report['id'] ?>">削除</button>
-            </div>
 
             <div class="pop" popover="manual" id="my-<?= $report['id'] ?>">
                 <p>本当に削除しますか？</p>
@@ -201,6 +198,11 @@ $reports = array(
                      </div>
             </div>
         </div>
+    <div class="btn02">
+        <button type="button" onclick="location.href='?do=rev_detail.php'"><a href="?do=rev_detail.php">詳細</a></button>
+        <button type="button">取り消し</button>
+        <button class="btn0" popovertarget="my-<?= $report['id'] ?>">削除</button>
+    </div>
     </section>
 <?php endforeach; ?>
 </div>
@@ -247,11 +249,8 @@ $reports = array(
                 </div>
                 <div class="right">
                     <h3>#${report['ジャンル']}</h3>
-                    <p>通報内容：${report['通報理由']}</p>
-                    <button type="button" onclick="location.href='detail.php?id=${report['id']}'">詳細</button>
-                    <button type="button">取り消し</button>
-                    <button class="btn0" popovertarget="my-<?= $report['id'] ?>">削除</button>
-            
+                    <div>通報内容：${report['通報理由']}</div> 
+
                     <div class="pop" popover="manual" id="my-<?= $report['id'] ?>">
                         <p>本当に削除しますか？</p>
                         <div class="yn">
@@ -259,7 +258,12 @@ $reports = array(
                             <button type="button" onclick="document.getElementById('my-<?= $report['id'] ?>').hidePopover()">no</button>
                         </div>
                     </div>
-                </div>
+                </div> 
+            <div class="btn02">
+                <button type="button" onclick="location.href='detail.php?id=${report['id']}'">詳細</button>
+                <button type="button">取り消し</button>
+                <button class="btn0" popovertarget="my-<?= $report['id'] ?>">削除</button>
+            </div>       
             </section>
             `;
         });
