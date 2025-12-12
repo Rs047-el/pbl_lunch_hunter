@@ -1,202 +1,155 @@
 <main>
     <h2>店舗登録</h2>
     <?php
+    // エラーメッセージ
     $error = $_SESSION['error'] ?? false;
-    if(!empty($_SESSION['error'])){
+    if (!empty($error)) {
         echo '<h2 style="color:red">必須項目が未入力です</h2>';
         unset($_SESSION['error']);
     }
-    
+
+    // 前回入力値
+    $old = $_SESSION['old'] ?? [];
+    $old_open  = $old['open_time']  ?? null;
+    $old_close = $old['close_time'] ?? null;
+    $old_holiday = $old['holiday'] ?? [];
+    $old_genre   = $old['genre'] ?? [];
+    $old_payment = $old['payment'] ?? [];
+    $old_tel1 = $old['tel_part1'] ?? '';
+    $old_tel2 = $old['tel_part2'] ?? '';
+    $old_tel3 = $old['tel_part3'] ?? '';
+
+    // 初期値
+    $default_open  = '9:00';
+    $default_close = '22:00';
+
+    // 時間リスト作成
+    $times = [];
+    for ($h = 0; $h <= 24; $h++) {
+        $times[] = sprintf("%d:00", $h);
+        $times[] = sprintf("%d:30", $h);
+    }
+    unset($_SESSION['old']);
+    unset($_SESSION['error']);
     ?>
+
     <form action="?do=rst_save" method="post" enctype="multipart/form-data">
 
         <div class="registration-container">
-
             <div class="left-col">
+
+                <!-- 店舗名 -->
                 <div class="form-group">
                     <label for="store_name">店舗名</label>
                     <span class="required-star">*必須</span>
-                    <input type="text" id="store_name" name="store_name" required>
+                    <input type="text" id="store_name" name="store_name" value="<?= htmlspecialchars($old['store_name'] ?? '') ?>">
                 </div>
 
+                <!-- 住所 -->
                 <div class="form-group">
                     <label for="address">住所</label>
                     <span class="required-star">*必須</span>
-                    <input type="text" id="address" name="address" required>
+                    <input type="text" id="address" name="address" value="<?= htmlspecialchars($old['address'] ?? '') ?>">
                 </div>
 
+                <!-- 定休日 -->
                 <div class="form-group">
                     <label>定休日</label>
                     <span class="required-star">*必須</span><br>
-                    <label><input type="checkbox" name="holiday[]" value=1> 日</label>
-                    <label><input type="checkbox" name="holiday[]" value=2> 月</label>
-                    <label><input type="checkbox" name="holiday[]" value=4> 火</label>
-                    <label><input type="checkbox" name="holiday[]" value=8> 水</label>
-                    <label><input type="checkbox" name="holiday[]" value=16> 木</label>
-                    <label><input type="checkbox" name="holiday[]" value=32> 金</label>
-                    <label><input type="checkbox" name="holiday[]" value=64> 土</label>
-                    <label><input type="checkbox" name="holiday[]" value="128"> 年中無休</label>
-                    <label><input type="checkbox" name="holiday[]" value="256"> 未定</label>
+                    <?php
+                    $days = [
+                        1 => '日', 2 => '月', 4 => '火', 8 => '水', 16 => '木', 32 => '金', 64 => '土', 128 => '年中無休', 256 => '未定'
+                    ];
+                    foreach ($days as $val => $label) :
+                    ?>
+                        <label>
+                            <input type="checkbox" name="holiday[]" value="<?= $val ?>" <?= in_array($val, $old_holiday) ? 'checked' : '' ?>>
+                            <?= $label ?>
+                        </label>
+                    <?php endforeach; ?>
                 </div>
 
+                <!-- 営業時間 -->
                 <div class="form-group">
-                    <label>営業時間</label>
+                    <label for="open_time">開店時間</label>
                     <span class="required-star">*必須</span><br>
-                    <select name="open_time" required>
-                        <option value="0:00">0:00</option>
-                        <option value="0:30">0:30</option>
-                        <option value="1:00">1:00</option>
-                        <option value="1:30">1:30</option>
-                        <option value="2:00">2:00</option>
-                        <option value="2:30">2:30</option>
-                        <option value="3:00">3:00</option>
-                        <option value="3:30">3:30</option>
-                        <option value="4:00">4:00</option>
-                        <option value="4:30">4:30</option>
-                        <option value="5:00">5:00</option>
-                        <option value="5:30">5:30</option>
-                        <option value="6:00">6:00</option>
-                        <option value="6:30">6:30</option>
-                        <option value="7:00">7:00</option>
-                        <option value="7:30">7:30</option>
-                        <option value="8:00">8:00</option>
-                        <option value="8:30">8:30</option>
-                        <option value="9:00" selected>9:00</option>
-                        <option value="9:30">9:30</option>
-                        <option value="10:00">10:00</option>
-                        <option value="10:30">10:30</option>
-                        <option value="11:00">11:00</option>
-                        <option value="11:30">11:30</option>
-                        <option value="12:00">12:00</option>
-                        <option value="12:30">12:30</option>
-                        <option value="13:00">13:00</option>
-                        <option value="13:30">13:30</option>
-                        <option value="14:00">14:00</option>
-                        <option value="14:30">14:30</option>
-                        <option value="15:00">15:00</option>
-                        <option value="15:30">15:30</option>
-                        <option value="16:00">16:00</option>
-                        <option value="16:30">16:30</option>
-                        <option value="17:00">17:00</option>
-                        <option value="17:30">17:30</option>
-                        <option value="18:00">18:00</option>
-                        <option value="18:30">18:30</option>
-                        <option value="19:00">19:00</option>
-                        <option value="19:30">19:30</option>
-                        <option value="20:00">20:00</option>
-                        <option value="20:30">20:30</option>
-                        <option value="21:00">21:00</option>
-                        <option value="21:30">21:30</option>
-                        <option value="22:00">22:00</option>
-                        <option value="22:30">22:30</option>
-                        <option value="23:00">23:00</option>
-                        <option value="23:30">23:30</option>
-                        <option value="24:00">24:00</option>
-                    </select>
-
-                    <select name="close_time" required>
-                        <option value="0:00">0:00</option>
-                        <option value="0:30">0:30</option>
-                        <option value="1:00">1:00</option>
-                        <option value="1:30">1:30</option>
-                        <option value="2:00">2:00</option>
-                        <option value="2:30">2:30</option>
-                        <option value="3:00">3:00</option>
-                        <option value="3:30">3:30</option>
-                        <option value="4:00">4:00</option>
-                        <option value="4:30">4:30</option>
-                        <option value="5:00">5:00</option>
-                        <option value="5:30">5:30</option>
-                        <option value="6:00">6:00</option>
-                        <option value="6:30">6:30</option>
-                        <option value="7:00">7:00</option>
-                        <option value="7:30">7:30</option>
-                        <option value="8:00">8:00</option>
-                        <option value="8:30">8:30</option>
-                        <option value="9:00">9:00</option>
-                        <option value="9:30">9:30</option>
-                        <option value="10:00">10:00</option>
-                        <option value="10:30">10:30</option>
-                        <option value="11:00">11:00</option>
-                        <option value="11:30">11:30</option>
-                        <option value="12:00">12:00</option>
-                        <option value="12:30">12:30</option>
-                        <option value="13:00">13:00</option>
-                        <option value="13:30">13:30</option>
-                        <option value="14:00">14:00</option>
-                        <option value="14:30">14:30</option>
-                        <option value="15:00">15:00</option>
-                        <option value="15:30">15:30</option>
-                        <option value="16:00">16:00</option>
-                        <option value="16:30">16:30</option>
-                        <option value="17:00">17:00</option>
-                        <option value="17:30">17:30</option>
-                        <option value="18:00">18:00</option>
-                        <option value="18:30">18:30</option>
-                        <option value="19:00">19:00</option>
-                        <option value="19:30">19:30</option>
-                        <option value="20:00">20:00</option>
-                        <option value="20:30">20:30</option>
-                        <option value="21:00">21:00</option>
-                        <option value="21:30">21:30</option>
-                        <option value="22:00" selected>22:00</option>
-                        <option value="22:30">22:30</option>
-                        <option value="23:00">23:00</option>
-                        <option value="23:30">23:30</option>
-                        <option value="24:00">24:00</option>
+                    <select name="open_time" id="open_time" <?php foreach ($times as $time) :
+                                                                $selected = ($old_open === $time || (!$old_open && $time === $default_open)) ? 'selected' : '';
+                                                            ?> <option value="<?= $time ?>" <?= $selected ?>><?= $time ?></option>
+                    <?php endforeach; ?>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label for="tel">電話番号</label>
+                    <label for="close_time">閉店時間</label>
                     <span class="required-star">*必須</span><br>
-                    <input type="tel" name="tel_part1" size="3" required> -
-                    <input type="tel" name="tel_part2" size="4" required> -
-                    <input type="tel" name="tel_part3" size="4" required>
+                    <select name="close_time" id="close_time">
+                        <?php foreach ($times as $time) :
+                            $selected = ($old_close === $time || (!$old_close && $time === $default_close)) ? 'selected' : '';
+                        ?>
+                            <option value="<?= $time ?>" <?= $selected ?>><?= $time ?></option>
+                        <?php endforeach; ?>
+                    </select>
                 </div>
 
+                <!-- 電話番号 -->
+                <div class="form-group">
+                    <label>電話番号</label>
+                    <span class="required-star">*必須</span><br>
+                    <input type="tel" name="tel_part1" value="<?= htmlspecialchars($old_tel1) ?>" pattern="\d{2,5}"> -
+                    <input type="tel" name="tel_part2" value="<?= htmlspecialchars($old_tel2) ?>" pattern="\d{1,4}"> -
+                    <input type="tel" name="tel_part3" value="<?= htmlspecialchars($old_tel3) ?>" pattern="\d{4}">
+                </div>
+
+                <!-- ジャンル -->
                 <div class="form-group">
                     <label>ジャンル</label>
                     <span class="required-star">*必須</span><br>
-                    <label><input type="checkbox" name="genre[]" value="1"> うどん</label>
-                    <label><input type="checkbox" name="genre[]" value="2"> ラーメン</label>
-                    <label><input type="checkbox" name="genre[]" value="3"> その他麺類</label>
-                    <label><input type="checkbox" name="genre[]" value="4"> ファストフード</label>
-                    <label><input type="checkbox" name="genre[]" value="5"> 和食</label>
-                    <label><input type="checkbox" name="genre[]" value="6"> 洋食</label>
-                    <label><input type="checkbox" name="genre[]" value="7"> 定食</label>
-                    <label><input type="checkbox" name="genre[]" value="8"> 焼肉</label>
-                    <label><input type="checkbox" name="genre[]" value="9"> 中華</label>
-                    <label><input type="checkbox" name="genre[]" value="10"> カレー</label>
-                    <label><input type="checkbox" name="genre[]" value="11"> その他</label>
+                    <?php
+                    $genres = [
+                        1 => 'うどん', 2 => 'ラーメン', 3 => 'その他麺類', 4 => 'ファストフード',
+                        5 => '和食', 6 => '洋食', 7 => '定食', 8 => '焼肉', 9 => '中華', 10 => 'カレー', 11 => 'その他'
+                    ];
+                    foreach ($genres as $val => $label) :
+                    ?>
+                        <label>
+                            <input type="checkbox" name="genre[]" value="<?= $val ?>" <?= in_array($val, $old_genre) ? 'checked' : '' ?>>
+                            <?= $label ?>
+                        </label>
+                    <?php endforeach; ?>
                 </div>
 
             </div>
-            <div class="right-col">
 
+            <div class="right-col">
+                <!-- 支払い方法 -->
                 <div class="form-group">
                     <label>支払い方法</label>
                     <span class="required-star">*必須</span><br>
-                    <label><input type="checkbox" name="payment[]" value="1"> 現金</label>
-                    <label><input type="checkbox" name="payment[]" value="2"> QRコード</label>
-                    <label><input type="checkbox" name="payment[]" value="4"> 電子マネー</label>
-                    <label><input type="checkbox" name="payment[]" value="8"> クレジットカード</label>
+                    <?php
+                    $payments = [1 => '現金', 2 => 'QRコード', 4 => '電子マネー', 8 => 'クレジットカード'];
+                    foreach ($payments as $val => $label) :
+                    ?>
+                        <label>
+                            <input type="checkbox" name="payment[]" value="<?= $val ?>" <?= in_array($val, $old_payment) ? 'checked' : '' ?>>
+                            <?= $label ?>
+                        </label>
+                    <?php endforeach; ?>
                 </div>
 
+                <!-- URL -->
                 <div class="form-group">
                     <label for="url">URL</label>
                     <span class="optional-hash">#任意</span>
-                    <input type="url" id="url" name="url">
+                    <input type="url" id="url" name="url" value="<?= htmlspecialchars($old['url'] ?? '') ?>">
                 </div>
 
+                <!-- 写真 -->
                 <div class="form-group">
                     <label for="photo_file">写真</label>
                     <span class="optional-hash">#任意</span><br>
                     <input type="file" id="photo_file" name="photo_file" accept="image/*">
-                </div>
-
-                <div class="form-group" style="margin-top:10px;">
-                    <img id="preview_img" src="" alt="選択した写真のプレビュー" style="max-width:200px; display:none; border:1px solid #ccc;" />
+                    <img id="preview_img" src="" alt="選択した写真のプレビュー" style="max-width:200px; display:none; border:1px solid #ccc; margin-top:10px;" />
                     <button id="delete_btn" type="button" style="display:none; margin-left:10px;">削除</button>
                 </div>
 
@@ -230,6 +183,7 @@
 
             <button type="submit" name="register" style="float: right; margin-right: 10px;">登録</button>
 
+        </div>
     </form>
 
 </main>

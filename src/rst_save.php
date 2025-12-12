@@ -15,7 +15,7 @@ $tel_num = '';
 
 if ($mode === 'insert' || $mode === 'update') {
     // 必須項目チェック
-    $required_fields = ['store_name', 'address', 'open_time', 'close_time', 'tel_part1', 'tel_part2', 'tel_part3', 'holiday', 'genre'];
+    $required_fields = ['store_name', 'address', 'open_time', 'close_time', 'tel_part1', 'tel_part2', 'tel_part3'];
     foreach ($required_fields as $field) {
         if (empty($_POST[$field])) {
             $error = true;
@@ -23,16 +23,26 @@ if ($mode === 'insert' || $mode === 'update') {
         }
     }
 
+    // チェックボックス系
+    if (empty($_POST['holiday'])) $error = true;
+    if (empty($_POST['genre'])) $error = true;
+    if (empty($_POST['payment'])) $error = true;
+
     // 電話番号結合
+    $tel1 = $_POST['tel_part1'] ?? '';
+    $tel2 = $_POST['tel_part2'] ?? '';
+    $tel3 = $_POST['tel_part3'] ?? '';
+
     if (
-        !preg_match('/^\d{2,5}$/', $_POST['tel_part1']) ||
-        !preg_match('/^\d{1,4}$/', $_POST['tel_part2']) ||
-        !preg_match('/^\d{4}$/', $_POST['tel_part3'])
+        !preg_match('/^\d{2,5}$/', $tel1) ||
+        !preg_match('/^\d{1,4}$/', $tel2) ||
+        !preg_match('/^\d{3,4}$/', $tel3)
     ) {
         $error = true;
     } else {
-        $tel_num = $_POST['tel_part1'] . $_POST['tel_part2'] . $_POST['tel_part3'];
+        $tel_num = $tel1 . $tel2 . $tel3;
     }
+
 
     // エラーがなければ登録処理
     if (!$error) {
