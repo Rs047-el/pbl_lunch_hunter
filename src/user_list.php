@@ -5,7 +5,7 @@ $user = new User();
 // GET パラメータ取得
 $search_key = $_GET['q'] ?? '';
 $sort       = $_GET['sort'] ?? '';
-$stop_user  = isset($_GET['stop_user']) ? true : false;
+$stop_user  = isset($_GET['stop_user']);
 
 $user_list = $user->get_userlist_filtered($search_key, $stop_user, $sort);
 ?>

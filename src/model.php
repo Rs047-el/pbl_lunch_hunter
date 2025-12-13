@@ -323,7 +323,7 @@ class User extends Model
                 . "user_f_kana LIKE '%{$escaped_key}%'"
                 . ")";
         }
-
+        
         // 停止中か通常か
         if ($stop_user) {
             $where[] = "usertype_id = 2";
@@ -346,37 +346,34 @@ class User extends Model
 
     //ユーザリスト
     function get_userlist($where = 1, $orderby = null, $limit = 0, $offset = 0)
-    {
-        // WHERE 配列を構築
-        $whereStr = '';
-        if (!empty($where)) {
-            if (is_array($where)) {
-                $parts = [];
-                foreach ($where as $k => $v) {
-                    if (is_int($k)) {
-                        // 数字キーはすでにSQL条件文字列として渡されている場合
-                        $parts[] = $v;
-                    } else {
-                        // キーが文字列の場合
-                        $v_escaped = $this->db->real_escape_string($v);
-                        $parts[] = "$k = '$v_escaped'";
-                    }
+{
+    $whereStr = '';
+    if (!empty($where)) {
+        if (is_array($where)) {
+            $parts = [];
+            foreach ($where as $k => $v) {
+                if (is_int($k)) {
+                    $parts[] = $v;
+                } else {
+                    $v_escaped = $this->db->real_escape_string($v);
+                    $parts[] = "$k = '$v_escaped'";
                 }
-                $whereStr = implode(' AND ', $parts);
-            } else {
-                $whereStr = $where;
             }
+            $whereStr = implode(' AND ', $parts);
+        } else {
+            $whereStr = $where;
         }
-
-        // SQL 組み立て
-        $sql = "SELECT * FROM t_user NATURAL JOIN t_usertype WHERE usertype_id = '1'";
-        if ($whereStr !== '') {
-            $sql .= " AND {$whereStr}";
-        }
-
-        // 実行
-        return $this->query($sql, $orderby, $limit, $offset);
     }
+
+    $sql = "SELECT * FROM t_user NATURAL JOIN t_usertype";
+
+    if ($whereStr !== '') {
+        $sql .= " WHERE {$whereStr}";
+    }
+
+    return $this->query($sql, $orderby, $limit, $offset);
+}
+
 
     //お気に入り店舗
     function get_favorite($user_id)
