@@ -115,10 +115,17 @@ $isFav = count($exists) > 0;
         font-size: 16px;
         /* 文字サイズも調整可 */
     }
+    .shopinfo {
+    font-size: 100px; /* 店舗情報だけ大きくする */
+}
 
-    body {
-        font-size: 20px;
-    }
+.shopinfo h2 {
+    font-size: 32px; /* 店名はさらに大きく */
+}
+
+.shopinfo table {
+    font-size: 20px; /* 表の文字も少し大きく */
+}
 
     .danger-btn {
         color: #fff;
@@ -256,7 +263,7 @@ $isFav = count($exists) > 0;
                         </td>
                         <td>
                             <?php foreach ($rstdata['holidays'] as $h) {
-                                echo $h . ' ';
+                                echo $h . ', ';
                             } ?>
                         </td>
                     </tr>
@@ -272,7 +279,7 @@ $isFav = count($exists) > 0;
                         </td>
                         <td>
                             <?php foreach ($rstdata['rst_genre'] as $rg) {
-                                echo $rg['genre'] . ' ';
+                                echo $rg['genre'] . ', ';
                             } ?>
                         </td>
                     </tr>
@@ -282,7 +289,7 @@ $isFav = count($exists) > 0;
                         </td>
                         <td>
                             <?php foreach ($rstdata['pays'] as $p) {
-                                echo $p . ' ';
+                                echo $p . ', ';
                             } ?>
                         </td>
                     </tr>
