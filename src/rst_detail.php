@@ -449,7 +449,7 @@ $maxCount = max($ratingCount);
     <div>
         <?php
         echo '<input type="hidden" name="user_id" value=' . $_SESSION['user_id'] . '>';
-        echo '<input type="hidden" name="rst_id" value=' . $rst_id['rst_id'] . '>';
+        echo '<input type="hidden" name="rst_id" value=' . intval($rst_id['rst_id']) . '>';
         ?>
         <?php if ($myReview) : ?>
             <input type="hidden" name="review_id" value="<?= $myReview["review_id"] ?>">
@@ -463,7 +463,8 @@ $maxCount = max($ratingCount);
         <?php if ($myReview) : ?>
             <form action="?do=rev_save" method="post" onsubmit="return confirm('本当に削除しますか？');">
                 <input type="hidden" name="review_id" value="<?= $myReview['review_id'] ?>">
-                <input type="hidden" name="mode" value="delete">
+                <input type="hidden" name="mode" value="my_delete">
+                <input type="hidden" name="rst_id" value="<?= intval($rst_id['rst_id']) ?>">
                 <button type="submit" class="btn btn-danger btn-lg link-white">削除</button>
             </form>
         <?php endif; ?>

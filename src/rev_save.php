@@ -5,7 +5,8 @@ $review = new Review();
 $report = new Report();
 
 // ファイルを読み込む（未選択なら null）
-function readBlob($key) {
+function readBlob($key)
+{
     if (!empty($_FILES[$key]['tmp_name'])) {
         return file_get_contents($_FILES[$key]['tmp_name']);
 
@@ -14,7 +15,8 @@ function readBlob($key) {
 }
 
 // POSTキーが配列なら数字か文字列で呼び出せるよう統一
-function safePost($key) {
+function safePost($key)
+{
     return $_POST[$key] ?? null;
 }
 
@@ -117,6 +119,24 @@ switch ($mode) {
         exit;
         break;
 
+    case 'my_delete':
+        if (!isset($_POST['review_id'])) {
+            exit('レビューIDが指定されていません。');
+        }
+
+        $review_id = $_POST['review_id'];
+        $user_id   = $_SESSION['user_id'];
+
+        // 自分のレビューだけ削除
+        $review->delete([
+            'review_id' => $review_id,
+            'user_id'   => $user_id
+        ]);
+
+        // 削除後リダイレクト
+        header('Location:?do=rst_detail&rst_id=' . intval($rst_id));
+        exit;
+        break;
     default:
         exit('Invalid mode');
 }
