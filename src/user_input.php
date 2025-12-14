@@ -57,7 +57,7 @@ if (!empty($_GET['msg'])) {
 <tr><td><input type="password" name="pass" class="form-control" required></td>
     <td></td>
     <td><input type="text" name="user_l_kana" class="form-control" required></td>
-    <td><input type="text" name="user_l_kana" class="form-control" required></td>
+    <td><input type="text" name="user_f_kana" class="form-control" required></td>
 </tr>
 </table>
 <input type="hidden" name="mode" value="input">
